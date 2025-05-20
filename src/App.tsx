@@ -1,10 +1,15 @@
 import React, { FC } from 'react'
+import AppRouter from './components/AppRouter';
+import Navbar from './components/Navbar';
+import { Layout } from 'antd';
+
 
 const App: FC = () => {
   return (
-    <div>
-      ksfnaksl
-    </div>
+    <Layout>
+      <Navbar />
+      <Layout.Content><AppRouter /></Layout.Content>
+    </Layout>
   )
 }
 export default App;
