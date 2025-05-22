@@ -1,12 +1,14 @@
-import { Layout, Menu } from 'antd';
-import { Color } from 'antd/es/color-picker';
+import { Layout, Menu, Row, Col, App } from 'antd';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../hooks/useTypesSelector';
+import { AuthActionCreators } from '../store/reducers/auth/action-creators';
+import { AppDispatch } from '../store';
+import { useDispatch } from 'react-redux';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
   const loginItems = [
     {
       key: 'login',
@@ -20,29 +22,32 @@ const Navbar: FC = () => {
       key: 'logout',
       label: 'Logout',
       onClick: () => {
-        navigate('/');
+        dispatch(AuthActionCreators.logout());
       },
     },
   ];
 
-  const { isAuth } = useTypedSelector(state => state.auth)
+  const { isAuth, user } = useTypedSelector(state => state.auth)
 
   return (
     <Layout.Header>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ color: 'white' }}>Mar1v</div>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          selectable={false}
-          defaultSelectedKeys={isAuth ? ['logout'] : ['login']}
-          items={isAuth ? logoutItems : loginItems}
-          disabledOverflow={true}
-          overflowedIndicator={null}
-        />
-      </div>
+      <Row justify="end" align="middle">
+        <Col style={{ color: 'white', marginRight: '20px' }}>{user.username}</Col>
+        <Col>
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            selectable={false}
+            defaultSelectedKeys={['1']}
+            items={isAuth ? logoutItems : loginItems}
+            disabledOverflow={true}
+            overflowedIndicator={null}
+          />
+        </Col>
+      </Row>
     </Layout.Header>
   );
 };
 
 export default Navbar;
+
