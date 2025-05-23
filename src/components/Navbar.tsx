@@ -2,13 +2,11 @@ import { Layout, Menu, Row, Col, App } from 'antd';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../hooks/useTypesSelector';
-import { AuthActionCreators } from '../store/reducers/auth/action-creators';
-import { AppDispatch } from '../store';
-import { useDispatch } from 'react-redux';
+import { useActions } from '../hooks/useActions';
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const { logout } = useActions();
   const loginItems = [
     {
       key: 'login',
@@ -22,7 +20,7 @@ const Navbar: FC = () => {
       key: 'logout',
       label: 'Logout',
       onClick: () => {
-        dispatch(AuthActionCreators.logout());
+        logout();
       },
     },
   ];
